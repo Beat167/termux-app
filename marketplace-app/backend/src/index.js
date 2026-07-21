@@ -8,6 +8,7 @@ const reservationRoutes = require('./routes/reservations');
 const offerRoutes = require('./routes/offers');
 const orderRoutes = require('./routes/orders');
 const notificationRoutes = require('./routes/notifications');
+const reviewRoutes = require('./routes/reviews');
 
 if (!process.env.JWT_SECRET) {
   console.error('Falta JWT_SECRET. Copia .env.example a .env y define un valor.');
@@ -26,6 +27,7 @@ app.use('/api/reservations', reservationRoutes);
 app.use('/api/offers', offerRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {

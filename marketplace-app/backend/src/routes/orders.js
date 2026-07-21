@@ -63,7 +63,10 @@ router.post('/', requireAuth, (req, res) => {
 });
 
 function getOrderWithItems(orderId) {
-  const order = db.prepare('SELECT * FROM orders WHERE id = ?').get(orderId);
+  const order = db.prepare(
+    `SELECT orders.*, stores.name AS store_name, stores.type AS store_type
+     FROM orders JOIN stores ON stores.id = orders.store_id WHERE orders.id = ?`
+  ).get(orderId);
   const items = db.prepare(
     `SELECT order_items.*, products.name AS product_name FROM order_items
      JOIN products ON products.id = order_items.product_id WHERE order_id = ?`

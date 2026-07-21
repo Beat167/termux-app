@@ -6,7 +6,7 @@ import { useAuth } from '../auth';
 export default function AuthPage() {
   const [mode, setMode] = useState('login');
   const [role, setRole] = useState('customer');
-  const [form, setForm] = useState({ name: '', email: '', password: '', storeName: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', storeName: '', storeType: 'tienda_oficial' });
   const [error, setError] = useState('');
   const auth = useAuth();
   const navigate = useNavigate();
@@ -50,14 +50,23 @@ export default function AuthPage() {
               </select>
             </label>
             {role === 'merchant' && (
-              <label>
-                Nombre de la tienda
-                <input
-                  value={form.storeName}
-                  onChange={(e) => setForm({ ...form, storeName: e.target.value })}
-                  required
-                />
-              </label>
+              <>
+                <label>
+                  Nombre de la tienda
+                  <input
+                    value={form.storeName}
+                    onChange={(e) => setForm({ ...form, storeName: e.target.value })}
+                    required
+                  />
+                </label>
+                <label>
+                  Tipo de vendedor
+                  <select value={form.storeType} onChange={(e) => setForm({ ...form, storeType: e.target.value })}>
+                    <option value="tienda_oficial">Tienda oficial (envíos, pago con tarjeta)</option>
+                    <option value="mercado_local">Mercado local (vendedor individual, coordinas la entrega)</option>
+                  </select>
+                </label>
+              </>
             )}
           </>
         )}

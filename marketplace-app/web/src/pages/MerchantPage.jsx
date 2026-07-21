@@ -4,7 +4,10 @@ import { api } from '../api/client';
 const ORDER_STATUSES = ['confirmado', 'en_preparacion', 'en_camino', 'entregado', 'cancelado'];
 
 export default function MerchantPage() {
-  const [product, setProduct] = useState({ name: '', price: '', stock: '', category: '', acceptsOffers: false });
+  const [product, setProduct] = useState({
+    name: '', price: '', stock: '', category: '', acceptsOffers: false,
+    freeShipping: false, imageUrl: '', imageUrlAlt: '',
+  });
   const [offers, setOffers] = useState([]);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
@@ -28,7 +31,7 @@ export default function MerchantPage() {
         stock: Number(product.stock),
       });
       setMessage('Producto publicado.');
-      setProduct({ name: '', price: '', stock: '', category: '', acceptsOffers: false });
+      setProduct({ name: '', price: '', stock: '', category: '', acceptsOffers: false, freeShipping: false, imageUrl: '', imageUrlAlt: '' });
     } catch (e) {
       setError(e.message);
     }
@@ -86,7 +89,30 @@ export default function MerchantPage() {
           </label>
           <label>
             Categoría
-            <input value={product.category} onChange={(e) => setProduct({ ...product, category: e.target.value })} />
+            <select value={product.category} onChange={(e) => setProduct({ ...product, category: e.target.value })}>
+              <option value="">Sin categoría</option>
+              <option value="tecnologia">Tecnología</option>
+              <option value="moda">Moda</option>
+              <option value="hogar">Hogar</option>
+              <option value="motor">Motor</option>
+              <option value="bienestar">Bienestar</option>
+            </select>
+          </label>
+          <label>
+            URL de la foto principal
+            <input
+              placeholder="https://..."
+              value={product.imageUrl}
+              onChange={(e) => setProduct({ ...product, imageUrl: e.target.value })}
+            />
+          </label>
+          <label>
+            URL de foto secundaria (se muestra al pasar el cursor)
+            <input
+              placeholder="https://..."
+              value={product.imageUrlAlt}
+              onChange={(e) => setProduct({ ...product, imageUrlAlt: e.target.value })}
+            />
           </label>
           <label className="checkbox">
             <input
@@ -95,6 +121,14 @@ export default function MerchantPage() {
               onChange={(e) => setProduct({ ...product, acceptsOffers: e.target.checked })}
             />
             Acepta regateo
+          </label>
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              checked={product.freeShipping}
+              onChange={(e) => setProduct({ ...product, freeShipping: e.target.checked })}
+            />
+            Envío gratis
           </label>
           <button type="submit">Publicar</button>
         </form>

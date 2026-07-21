@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS stores (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   owner_id INTEGER NOT NULL REFERENCES users(id),
   name TEXT NOT NULL,
+  type TEXT NOT NULL DEFAULT 'mercado_local' CHECK (type IN ('tienda_oficial', 'mercado_local')),
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -31,7 +32,26 @@ CREATE TABLE IF NOT EXISTS products (
   price REAL NOT NULL,
   stock INTEGER NOT NULL DEFAULT 0,
   accepts_offers INTEGER NOT NULL DEFAULT 0,
+  free_shipping INTEGER NOT NULL DEFAULT 0,
+  image_url TEXT,
+  image_url_alt TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  product_id INTEGER NOT NULL REFERENCES products(id),
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS product_views (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  product_id INTEGER NOT NULL REFERENCES products(id),
+  viewed_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE TABLE IF NOT EXISTS reservations (

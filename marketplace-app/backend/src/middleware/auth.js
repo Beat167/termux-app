@@ -22,4 +22,19 @@ function requireRole(role) {
   };
 }
 
-module.exports = { requireAuth, requireRole };
+// No exige sesión, pero si hay un token válido lo decodifica en req.user
+// (para trackear vistas/recomendaciones sin bloquear el acceso público).
+function optionalAuth(req, res, next) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  if (token) {
+    try {
+      req.user = jwt.verify(token, process.env.JWT_SECRET);
+    } catch {
+      // token inválido: seguimos como visitante anónimo
+    }
+  }
+  next();
+}
+
+module.exports = { requireAuth, requireRole, optionalAuth };

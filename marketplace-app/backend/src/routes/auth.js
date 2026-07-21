@@ -14,7 +14,7 @@ function issueToken(user) {
 }
 
 router.post('/register', (req, res) => {
-  const { name, email, password, role, storeName } = req.body;
+  const { name, email, password, role, storeName, storeType } = req.body;
   if (!name || !email || !password || !role) {
     return res.status(400).json({ error: 'name, email, password y role son obligatorios' });
   }
@@ -23,6 +23,9 @@ router.post('/register', (req, res) => {
   }
   if (role === 'merchant' && !storeName) {
     return res.status(400).json({ error: 'storeName es obligatorio para comerciantes' });
+  }
+  if (role === 'merchant' && storeType && !['tienda_oficial', 'mercado_local'].includes(storeType)) {
+    return res.status(400).json({ error: 'storeType debe ser tienda_oficial o mercado_local' });
   }
 
   const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
@@ -35,7 +38,8 @@ router.post('/register', (req, res) => {
   const user = { id: info.lastInsertRowid, name, role };
 
   if (role === 'merchant') {
-    db.prepare('INSERT INTO stores (owner_id, name) VALUES (?, ?)').run(user.id, storeName);
+    db.prepare('INSERT INTO stores (owner_id, name, type) VALUES (?, ?, ?)')
+      .run(user.id, storeName, storeType || 'mercado_local');
   }
 
   res.status(201).json({ token: issueToken(user), user });
