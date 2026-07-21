@@ -41,14 +41,20 @@ router.post('/', requireAuth, (req, res) => {
   );
   const decrementStock = db.prepare('UPDATE products SET stock = stock - ? WHERE id = ?');
 
-  const orderId = db.transaction(() => {
+  db.exec('BEGIN');
+  let orderId;
+  try {
     const info = insertOrder.run(req.user.id, storeId, total, address || null);
+    orderId = info.lastInsertRowid;
     for (const { product, quantity } of products) {
-      insertItem.run(info.lastInsertRowid, product.id, quantity, product.price);
+      insertItem.run(orderId, product.id, quantity, product.price);
       decrementStock.run(quantity, product.id);
     }
-    return info.lastInsertRowid;
-  })();
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
 
   const store = db.prepare('SELECT * FROM stores WHERE id = ?').get(storeId);
   notify(store.owner_id, 'order_created', `Nuevo pedido #${orderId} recibido.`);
