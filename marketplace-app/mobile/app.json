@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Marketplace",
+    "slug": "marketplace-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.marketplace.mobile"
+    },
+    "ios": {
+      "bundleIdentifier": "com.marketplace.mobile"
+    }
+  }
+}

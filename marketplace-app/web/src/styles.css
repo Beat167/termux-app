@@ -1,0 +1,76 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f5f6f8;
+  color: #1a1a1a;
+}
+.app { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+.brand { font-weight: bold; font-size: 1.2rem; text-decoration: none; color: #1a1a1a; }
+nav { display: flex; gap: 12px; align-items: center; }
+nav a { color: #1a1a1a; text-decoration: none; }
+.who { color: #555; }
+button {
+  cursor: pointer;
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+button:hover { background: #1d4ed8; }
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.tabs button { background: #e5e7eb; color: #1a1a1a; }
+.tabs button.active { background: #2563eb; color: white; }
+form { display: flex; flex-direction: column; gap: 10px; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; }
+label.checkbox { flex-direction: row; align-items: center; gap: 8px; }
+input, select { padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 1rem; }
+.error { color: #b91c1c; }
+.success { color: #15803d; }
+.search { width: 100%; padding: 10px; margin: 16px 0; border-radius: 8px; border: 1px solid #ccc; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.product-card {
+  background: white;
+  border-radius: 10px;
+  padding: 14px;
+  text-decoration: none;
+  color: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.product-card .store { color: #666; font-size: 0.85rem; }
+.product-card .price { font-weight: bold; margin-top: 6px; }
+.badge {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.actions { display: flex; gap: 8px; margin: 10px 0; }
+.offer-form { margin-top: 12px; border-top: 1px solid #eee; padding-top: 12px; }
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+}
+.row.unread { background: #eff6ff; }
