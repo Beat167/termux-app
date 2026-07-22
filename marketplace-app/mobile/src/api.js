@@ -15,11 +15,21 @@ async function request(path, { method = 'GET', body, token } = {}) {
   return data;
 }
 
+function buildQuery(params) {
+  const query = Object.entries(params)
+    .filter(([, v]) => v !== undefined && v !== null && v !== '')
+    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+    .join('&');
+  return query ? `?${query}` : '';
+}
+
 export const api = {
   register: (payload) => request('/auth/register', { method: 'POST', body: payload }),
   login: (payload) => request('/auth/login', { method: 'POST', body: payload }),
-  listProducts: (search) => request(`/products${search ? `?search=${encodeURIComponent(search)}` : ''}`),
-  getProduct: (id) => request(`/products/${id}`),
+  listProducts: ({ search, category, mode } = {}, token) =>
+    request(`/products${buildQuery({ search, category, mode })}`, { token }),
+  listRecommended: (token) => request('/products/recommended', { token }),
+  getProduct: (id, token) => request(`/products/${id}`, { token }),
   createProduct: (payload, token) => request('/products', { method: 'POST', body: payload, token }),
   createOffer: (payload, token) => request('/offers', { method: 'POST', body: payload, token }),
   listOffers: (token) => request('/offers', { token }),
@@ -30,4 +40,6 @@ export const api = {
   updateOrderStatus: (id, status, token) =>
     request(`/orders/${id}/status`, { method: 'PUT', body: { status }, token }),
   listNotifications: (token) => request('/notifications', { token }),
+  listReviews: (productId) => request(`/reviews/product/${productId}`),
+  createReview: (payload, token) => request('/reviews', { method: 'POST', body: payload, token }),
 };
