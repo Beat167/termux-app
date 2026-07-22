@@ -12,24 +12,33 @@ marketplace-app/
 
 ## Funcionalidades incluidas en este MVP
 
-- Registro/login de clientes y comerciantes.
-- Catálogo público con búsqueda.
-- Publicación de productos (comerciante).
+- Registro/login de clientes y comerciantes, con dos tipos de tienda:
+  **Tiendas Oficiales** (envío/pago con tarjeta) y **Mercado Local** (C2C,
+  coordinas la entrega con el vendedor).
+- Catálogo público con búsqueda, categorías y toggle entre ambos modos.
+- Publicación de productos con fotos, envío gratis y regateo (comerciante).
 - Reservas con tiempo límite.
 - Regateo: oferta → aceptar / rechazar / contraofertar.
+- Reseñas y calificación promedio por producto.
+- Recomendaciones ("Inspirado en tus últimas búsquedas") según lo que
+  el usuario ha visto.
+- Carrito con checkout dividido: pedidos de tiendas oficiales por un lado,
+  contactos de mercado local por otro.
 - Pedidos con descuento de stock y cambio de estado
   (`confirmado → en_preparacion → en_camino → entregado`).
 - Notificaciones en la app (por evento: nueva reserva, nueva oferta,
   respuesta de oferta, cambio de estado del pedido).
 
 Queda fuera de este MVP (ver el documento de diseño para el alcance completo):
-pagos reales, push notifications nativas, repartidores, reseñas, mapas.
+pagos reales, push notifications nativas, repartidores propios, chat en
+vivo con el vendedor, mapas/geolocalización real.
 
 ---
 
 ## 1. Backend (necesario para correr web y móvil)
 
-Requiere Node.js (ya lo tienes instalado).
+Requiere Node.js 22.5 o más nuevo (usa el SQLite integrado en Node, sin
+compilar nada nativo — si tu Node es más viejo, actualízalo).
 
 ```bash
 cd marketplace-app/backend
